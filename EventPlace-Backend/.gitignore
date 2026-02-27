@@ -1,0 +1,22 @@
+# Pastas de ambiente virtual (sempre ignorar!)
+venv/
+.env
+env/
+
+# Arquivos temporários do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Configurações de editores (VS Code, PyCharm)
+.vscode/
+.idea/
+.history/
+
+# Arquivos de dados locais (para não dar conflito no JSON dos colegas)
+*.log
+data/dados_teste.json
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
