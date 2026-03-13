@@ -1,0 +1,64 @@
+/* Importando a fonte 'Inter' do Google Fonts (usada por grandes empresas de tecnologia) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+/* Aplicando a nova fonte no site inteiro */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f6f9; /* Um cinza um pouco mais elegante que o padrão */
+}
+
+/* --- Cabeçalho (Navbar) --- */
+.navbar {
+    /* Troca a cor sólida por um gradiente azul moderno */
+    background: linear-gradient(135deg, #0d6efd 0%, #084298 100%) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: -0.5px; /* Deixa as letras um pouco mais unidas, visual de logo */
+}
+
+/* --- Efeitos nos Cartões (Cards dos Espaços e Formulários) --- */
+.card {
+    border: none; /* Tira a borda dura padrão do Bootstrap */
+    border-radius: 12px; /* Deixa as pontas mais arredondadas */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Prepara a animação suave */
+}
+
+/* A mágica acontece aqui: Quando o mouse passa por cima do cartão, ele "pula" pra cima e a sombra aumenta */
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Arredonda as pontas dos cabeçalhos dos cartões na tela de cadastro */
+.card-header {
+    border-top-left-radius: 12px !important;
+    border-top-right-radius: 12px !important;
+}
+
+/* --- Botões --- */
+.btn {
+    border-radius: 8px; /* Botões mais arredondados */
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Faz o botão dar uma leve "crescida" ao passar o mouse */
+.btn:hover {
+    transform: scale(1.03); 
+}
+
+/* --- Títulos e Textos --- */
+h1, h2, h3, h4, h5 {
+    font-weight: 700;
+    color: #2b3440;
+}
+
+/* Deixa o preço do salão mais destacado e bonito */
+.text-success {
+    color: #198754 !important;
+    font-weight: 800;
+    font-size: 1.6rem;
+}
