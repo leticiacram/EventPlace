@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPlace - Minha Reserva</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .navbar-brand { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; }
+        .brand-event { color: #f38d31; }
+        .brand-place { color: #4b8cc9; }
+        .bg-azul-marca { background-color: #4b8cc9 !important; }
+        .btn-laranja-marca { background-color: #f38d31; color: white; border: none; }
+        .btn-laranja-marca:hover { background-color: #e07b22; color: white; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <span class="brand-event">Event</span><span class="brand-place">Place</span>
+            </a>
+            <a href="/" class="btn btn-outline-secondary btn-sm">Voltar à Vitrine</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">Consultar Reserva</h2>
+                    <p class="text-muted">Acompanhe o status do seu pedido</p>
+                </div>
+
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-body p-4">
+                        <form method="POST" class="d-flex gap-2">
+                            <input type="number" name="id_reserva" class="form-control form-control-lg" placeholder="Digite o ID da reserva" required>
+                            <button type="submit" class="btn btn-laranja-marca fw-bold px-4">Buscar</button>
+                        </form>
+                    </div>
+                </div>
+
+                {% if erro %}
+                <div class="alert alert-danger text-center fw-bold" style="border: 2px solid red; background-color: #fdf2f2;">
+                    <i class="bi bi-exclamation-triangle-fill"></i> {{ erro }}
+                </div>
+                {% endif %}
+
+                {% if reserva %}
+                <div class="card shadow border-0" style="border-top: 5px solid #4b8cc9 !important;">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">Reserva #{{ reserva.id }}</h5>
+                            
+                            {% if reserva.status == 'PENDENTE' %}
+                                <span class="badge bg-warning text-dark fs-6">Aguardando Aprovação</span>
+                            {% elif reserva.status == 'CONFIRMADA' %}
+                                <span class="badge bg-success fs-6"><i class="bi bi-check-circle"></i> Confirmada</span>
+                            {% else %}
+                                <span class="badge bg-danger fs-6">Cancelada</span>
+                            {% endif %}
+                        </div>
+                        
+                        <hr>
+
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted small text-uppercase fw-bold">Local Reservado</p>
+                            <h5 class="text-primary"><i class="bi bi-house-door"></i> {{ reserva.nome_espaco }}</h5>
+                            <p class="mb-0"><i class="bi bi-geo-alt"></i> {{ reserva.localizacao_espaco }}</p>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <p class="mb-1 text-muted small text-uppercase fw-bold">Data do Evento</p>
+                                <p class="fw-bold mb-0"><i class="bi bi-calendar-event"></i> {{ reserva.data_reserva }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-1 text-muted small text-uppercase fw-bold">Valor Total</p>
+                                <p class="fw-bold mb-0 text-success fs-5">R$ {{ reserva.valor_total | moeda }}</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-light p-3 rounded mt-3">
+                            <p class="mb-1 text-muted small text-uppercase fw-bold">Dados do Cliente</p>
+                            <p class="mb-0"><strong>Nome:</strong> {{ reserva.nome_cliente }}</p>
+                            <p class="mb-0"><strong>Contato:</strong> {{ reserva.telefone_cliente }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
