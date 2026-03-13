@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPlace - Aluguel de Espaços</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        /* --- LOGO E NAVBAR COMPACTOS --- */
+        .navbar-logo { height: 60px; width: auto; object-fit: contain; }
+        .navbar-brand {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 2.5rem; font-weight: 800; letter-spacing: -1.5px;
+        }
+        .brand-event { color: #f38d31; } /* Laranja da imagem */
+        .brand-place { color: #4b8cc9; } /* Azul da imagem */
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            color: white; padding: 50px 0; border-radius: 0 0 2rem 2rem; margin-bottom: -50px;
+        }
+        .hero-subtitle {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1rem; letter-spacing: 1px; font-weight: bold;
+            color: rgba(255, 255, 255, 0.9); text-transform: uppercase;
+        }
+
+        /* --- CARDS --- */
+        .search-card { border-radius: 1.5rem; border: none; z-index: 10; }
+        .card-espaco { 
+            border-radius: 1.2rem; transition: all 0.3s ease; 
+            border: 1px solid #eee;
+        }
+        .card-espaco:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+        }
+
+        /* --- ESTILO DO PREÇO --- */
+        .preco-verde {
+            color: #28a745; /* Verde Moeda */
+            font-weight: 800;
+            font-size: 1.6rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-primary shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="navbar-logo">
+                <span><span class="brand-event">Event</span><span class="brand-place">Place</span></span>
+            </a>
+            <a href="/cadastro" class="btn btn-light fw-bold text-primary px-3 py-2">➕ Novo Cadastro</a>
+        </div>
+    </nav>
+
+    <div class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-5 fw-bold mb-2">Encontre o espaço ideal</h1>
+            <p class="hero-subtitle mb-0">Festas, palestras e reuniões em um só lugar.</p>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="card search-card shadow-lg mb-5">
+            <div class="card-body p-4">
+                <form action="/" method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold small text-muted text-uppercase">Localização</label>
+                        <input type="text" name="localizacao" class="form-control" placeholder="Ex: Indaiatuba">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold small text-muted text-uppercase">Tipo</label>
+                        <select name="tipo" class="form-select">
+                            <option value="">Todos</option>
+                            <option value="SALAO_FESTA">Salão de Festas</option>
+                            <option value="CHACARA">Chácara</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold small text-muted text-uppercase">Preço Máximo</label>
+                        <input type="number" name="preco_max" class="form-control" placeholder="Até R$">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100 fw-bold py-2">BUSCAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            {% if espacos %}
+                {% for espaco in espacos %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 card-espaco shadow-sm bg-white">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <h5 class="fw-bold m-0">{{ espaco.nome }}</h5>
+                                <span class="badge bg-primary-subtle text-primary">{{ espaco.tipo }}</span>
+                            </div>
+                            <p class="text-muted small"><i class="bi bi-geo-alt"></i> {{ espaco.localizacao }}</p>
+                            
+                            <div class="mb-4">
+                                <p class="small mb-1"><strong>Capacidade:</strong> {{ espaco.capacidade }} pessoas</p>
+                                <p class="small text-muted"><strong>Itens:</strong> {{ espaco.diferenciais | join(', ') }}</p>
+                            </div>
+                            
+                            <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                                <div class="preco-verde">R$ {{ espaco.preco | moeda }}</div>
+                                
+                                <div class="d-flex gap-2 align-items-center">
+                                    <form action="/excluir/{{ espaco.id }}" method="POST" onsubmit="return confirm('Excluir?');">
+                                        <button type="submit" class="btn btn-link text-danger p-0 border-0" title="Excluir">
+                                            <i class="bi bi-trash fs-5"></i>
+                                        </button>
+                                    </form>
+                                    <button class="btn btn-primary fw-bold">RESERVAR</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center py-5">
+                    <h5 class="text-muted">Nenhum espaço encontrado.</h5>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
