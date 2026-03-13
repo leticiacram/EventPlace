@@ -43,11 +43,22 @@
         </div>
     </nav>
 
-    <div class="container mt-5">
+<div class="container mt-5">
         <div class="text-center mb-5">
             <h2 class="fw-bold">Área de Cadastro</h2>
             <p class="text-muted">Gerencie os dados da plataforma de forma simples.</p>
-        </div>
+            
+            {% if mensagem %}
+            <div class="d-flex justify-content-center mt-3">
+                <div style="border: 2px solid red; padding: 10px 30px; font-size: 1.1rem; font-weight: bold; color: #d9534f; background-color: #fdf2f2;">
+                    {{ mensagem }}
+                </div>
+            </div>
+            {% endif %}
+            </div>
+
+        <div class="row">
+            ```
 
         <div class="row">
             <div class="col-md-5 mb-4">
