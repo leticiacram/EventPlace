@@ -49,7 +49,7 @@ def cadastro():
                 request.form.get('email'), 
                 request.form.get('telefone')
             )
-            mensagem = f"✅ Proprietário #{novo_id} cadastrado com sucesso!"
+            mensagem = f"✅ Proprietário: {novo_id} cadastrado com sucesso!"
             
         # Lógica para Espaço (Evento)
         elif tipo_form == 'espaco':
